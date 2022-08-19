@@ -10,7 +10,8 @@ jobs:
 
 
     steps:
-    - uses: actions/checkout@v3 #Github의 저장소로부터 CI 서버로 Git을 통해 코드를 내려받는 작업
+    #Github의 저장소로부터 CI 서버로 Git을 통해 코드를 내려받는 작업
+    - uses: actions/checkout@v3
 
       #JDK 11 환경설정
     - name: Set up JDK 11
