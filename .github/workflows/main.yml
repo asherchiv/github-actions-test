@@ -10,21 +10,38 @@ jobs:
 
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v3 #Github의 저장소로부터 CI 서버로 Git을 통해 코드를 내려받는 작업
+
+      #JDK 11 환경설정
     - name: Set up JDK 11
       uses: actions/setup-java@v1
       with:
         java-version: '11'
 
+    #의존성 패키지를 재사용하여 한번 다운로드된 의존성들에 대해 캐싱 기능을 제공하고 있음 -> 전반적인 빌드 시간을 줄여줌.
+    - name: Cache Gradle packages
+      uses: actions/cache@v2
+      with:
+        path: |
+          ~/.gradle/caches
+          ~/.gradle/wrapper
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-
+
+    #Gradle wrapper 파일 실행 권한 주기
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
 
+    #테스트 제외하고 빌드
     - name: Build with Gradle
       run: ./gradlew build -x test
 
+    #테스트만 따로 빌드
     - name: Test with Gradle
       run: ./gradlew --info test
 
+    #실패 여부와 상관없이 모든 테스트 결과를 깃헙에서 확인할 수 있도록 publish
     - name: Publish Test Report
       uses: mikepenz/action-junit-report@v3
       if: always() # always run even if the previous step fails
