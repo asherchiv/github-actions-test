@@ -1,11 +1,13 @@
 package com.example.githubactionstest1
 
-class Test {
-    fun generateAnswerString(count: Int):String{
+class Test(
+    private var count : Int,
+){
+    fun generateAnswerString():String{
         val answerString = if(count == 42){
-            "I have the answer"
+            "answer"
         }else{
-            "The answer eludes me"
+            "wrong"
         }
         return answerString
     }
