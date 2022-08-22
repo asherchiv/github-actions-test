@@ -10,8 +10,14 @@ jobs:
 
 
     steps:
-    #Github의 저장소로부터 CI 서버로 Git을 통해 코드를 내려받는 작업
     - uses: actions/checkout@v3
+
+    - name: make application.yml
+      run:
+        cd ./src/main/resources
+        touch ./application.yml
+        echo "${{ secrets.APPLICATION_YML}}" > ./appliction.yml
+      shell: bash
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
