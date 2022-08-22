@@ -15,7 +15,7 @@ jobs:
     #application.yml 생성
     - name: make application.yml
       run:
-        cd ./src/main/resources
+        cd src/main/resources
         
         touch ./application.yml
         
